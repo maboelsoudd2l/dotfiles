@@ -34,18 +34,30 @@ Plug 'xero/blaquemagick.vim'
 Plug 'xero/vim-noctu'
 Plug 'xero/nord-vim-mod'
 
+" Mohamed: adding highlightedyank
+Plug 'machakann/vim-highlightedyank'
+" Mohamed: adding vim-surround
+Plug 'tpope/vim-surround'
+
 " programming
 " Plug 'shougo/deoplete.nvim', has('nvim') ? {} : { 'do': [ ':UpdateRemotePlugins', ':set runtimepath+=~/.vim/plugged/deoplete.nvim/' ]}
 if has('nvim')
-  " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  Plug 'Shougo/deoplete.nvim', { 'do': ':set runtimepath+=~/.vim/plugged/deoplete.nvim/' }
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  let g:deoplete#enable_at_startup = 1
+  " Plug 'Shougo/deoplete.nvim', { 'do': ':set runtimepath+=~/.vim/plugged/deoplete.nvim/' }
 else
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
   Plug 'Shougo/deoplete.nvim'
+  "Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 endif
-let g:deoplete#enable_at_startup = 1
+"/Users/maboelsoud/.local/share/nvim/rplugin.vim
 
+":echo neovim_rpc#serveraddr()
+
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" If installed using Homebrew
+set rtp+=/usr/local/opt/fzf
 Plug 'ajh17/VimCompletesMe'
 Plug 'w0rp/ale'
 Plug 'sheerun/vim-polyglot'

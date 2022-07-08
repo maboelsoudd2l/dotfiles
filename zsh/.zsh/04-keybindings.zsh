@@ -49,3 +49,9 @@ if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
 	zle -N zle-line-init
 	zle -N zle-line-finish
 fi
+
+# mohamed's keybindings
+bindkey -e
+bindkey "^[b" backward-word
+bindkey '^[f' forward-word
+

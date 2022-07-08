@@ -19,6 +19,9 @@
 
 #█▓▒░ paths
 export PATH=/usr/local/bin:$HOME/bin:$HOME/.gem/ruby/2.5.0/bin:$HOME/src/go/bin/:$HOME/.local/bin:$PATH
+
+# █▓▒░Mohamed: add vscode
+export PATH=$PATH:/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin
 #export MANPATH=/usr/local/man:$MANPATH
 
 #█▓▒░ preferred text editor

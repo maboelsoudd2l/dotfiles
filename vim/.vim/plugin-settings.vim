@@ -25,7 +25,13 @@
 colorscheme nord
 
 " use your shell colors
-"colorscheme noctu
+" colorscheme noctu
+
+" highlight clear CursorLine to clear the current cusorline hl
+highlight clear CursorLine
+highlight CursorLine gui=underline cterm=bold 
+highlight Visual cterm=bold ctermbg=Red ctermfg=None guibg=Grey40
+let g:highlightedyank_highlight_duration = 300
 
 " omnifuncs
 augroup omnifuncs
@@ -77,6 +83,9 @@ let NERDTreeDirArrows = 1
 let g:webdevicons_enable_nerdtree = 1
 let g:NERDTreeDirArrowExpandable = ''
 let g:NERDTreeDirArrowCollapsible = ''
+
+" opening NERDTree by default
+autocmd VimEnter * NERDTree
 
 " disable folding
 let g:vim_json_syntax_conceal = 0

@@ -24,6 +24,7 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias ~="cd ~" # `cd` is probably faster to type though
 alias -- -="cd -"
+alias dev="cd ~/Dev/"
 
 # colorflag="-G"
 colorflag="--color"
@@ -101,6 +102,23 @@ alias p="pass -c"
 alias doc="sudo docker"
 #alias docclean="sudo docker rm $(sudo docker ps -a -q) &&  sudo docker rmi $(sudo docker images -q)"
 alias docstats="sudo docker ps -q | xargs  docker stats --no-stream"
+
+#█▓▒░ Mohameds stuff
+# python stuff
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
+# away from keyboard
+alias afk="pmset displaysleepnow"
+# npm stuff
+alias npmci='rm package-lock.json; rm -rf node_modules;  npm install'
+# used to run polymer on the local network, use this better than "polymer serve"
+alias polyserve='node_modules/.bin/polymer serve --hostname KLM0-MABOELSOUD'
+# git stuff
+alias gacm='git add --all; git commit -m $1'
+function gacmp() { git add --all; git commit -m "$1"; git push; }
+alias dotnet='~/.dotnet/dotnet'
+
 #█▓▒░ update mpd database
 function genplaylist() {
   cd ~/music
@@ -140,5 +158,111 @@ function vid_area() {
   read -r X Y W H G ID < <(slop -f "%x %y %w %h %g %i")
   ffmpeg -f x11grab -s "$W"x"$H" -i :0.0+$X,$Y -f alsa -i pulse ~/$(date "+%Y-%m-%d_%H-%M-%S")_slop_vid.webm
 }
+
+
+#█▓▒░ Mohameds stuff
+
+#█▓▒░ used to bump the dependabot stuff in luna
+#█▓▒░ getNpmVersion is a dependency of versionBumpMaster
+function getNpmVersion() {
+cat package.json \
+  | grep version \
+  | head -1 \
+  | awk -F: '{ print $2 }' \
+  | sed 's/[",]//g' \
+  | tr -d '[[:space:]]'
+}
+
+function versionBumpMaster() {
+if [ $# -eq 0 ]
+  then
+    echo "please enter branch name"
+  else
+    if [ "$1" == "-p" ]; then
+      DOPUSH=true
+      shift
+    else
+      DOPUSH=false
+    fi
+    TARGETBRANCH=$1  && \
+    git checkout master  && \
+    git fetch --all  && \
+    git pull  && \
+    MASTERVERSION=$(getNpmVersion)  && \
+    git checkout $TARGETBRANCH  && \
+    npm version --allow-same-version $MASTERVERSION  && \
+    NEWVERSION=$(npm version patch)  && \
+    git add --all  && \
+    git commit -m "$NEWVERSION";
+    if [ $DOPUSH = true ]; then 
+      git push;
+    fi
+fi    
+}
+
+
+#█▓▒░ bmx stuff
+function setAWSProfile() {
+  if [ ! $1 ]
+  then
+    echo "ERROR: Missing AWS Account Name"
+    return
+  fi
+
+  account=$1
+
+  if [ ! $2 ]
+  then
+    role="User"
+    echo "WARNING: AWS Account Role not specified."
+    echo "Using 'User' as default AWS Account Role."
+    echo
+  else
+    role=$2
+  fi
+
+  if ! type "bmx" > /dev/null
+  then
+    echo "ERROR: The 'bmx' command is not in your environment PATH."
+    echo "Please add 'bmx' to your PATH."
+    echo "NOTE: You may have to rename the cmdlet to 'bmx' rather than using the default name (i.e. bmx_darwin_amd64)."
+    return
+  fi
+
+  awsConfigFolder="$HOME/.aws"
+  if [ ! -d "$awsConfigFolder" ]
+  then
+    mkdir $awsConfigFolder
+  fi
+
+  bmxConfigFolder="$HOME/.bmx"
+  if [ ! -d "$bmxConfigFolder" ]
+  then
+    mkdir $bmxConfigFolder
+  fi
+
+  bmxConfigFile="$bmxConfigFolder/config"
+  if [ ! -f "$bmxConfigFile" ]
+  then
+    echo "Enter your username (email used in AWS):"
+    read username
+    echo "user=$username" > $bmxConfigFile
+    echo "Username saved in $bmxConfigFile"
+    echo "NOTE: You will not be prompted for username again."
+    echo
+  else
+    echo "Using the following config ($bmxConfigFile):"
+    cat $bmxConfigFile
+    echo
+  fi
+
+  echo "Using AWS Account: $account"
+  echo "Using AWS Role: $role"
+  echo
+
+  bmx write --org d2l --account $account --role $account-$role --profile $account
+  export AWS_PROFILE=$account
+}
+
 # i hate this
 alias x="startx"

@@ -45,7 +45,7 @@ set foldlevelstart=99
 
 " highlight cursor
 set cursorline
-"set cursorcolumn
+set cursorcolumn
 
 " show invisibles
 set list

@@ -36,7 +36,7 @@ command UnMinify :call UnMinify()
 nnoremap <silent> <leader>u <esc>:call UnMinify()<cr><esc>
 
 " remove highlighting
-nnoremap <silent> <esc><esc> <esc>:nohlsearch<cr><esc>
+" nnoremap <silent> <esc><esc> <esc>:nohlsearch<cr><esc>
 
 " remove trailing white space
 command Nows :%s/\s\+$//
